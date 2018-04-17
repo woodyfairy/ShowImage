@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="udN-Pe-OSX">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="asU-U1-5It">
+                                        <rect key="frame" x="-768" y="0.0" width="768" height="1024"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aAB-IS-3O3">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="01H-DC-R3z">
+                                        <rect key="frame" x="768" y="0.0" width="768" height="1024"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="aAB-IS-3O3" firstAttribute="width" secondItem="udN-Pe-OSX" secondAttribute="width" id="20b-ln-L2O"/>
+                                    <constraint firstItem="01H-DC-R3z" firstAttribute="leading" secondItem="aAB-IS-3O3" secondAttribute="trailing" id="ITY-34-dNt"/>
+                                    <constraint firstAttribute="trailing" secondItem="01H-DC-R3z" secondAttribute="trailing" id="PYp-J7-NNP"/>
+                                    <constraint firstItem="aAB-IS-3O3" firstAttribute="leading" secondItem="asU-U1-5It" secondAttribute="trailing" id="QUj-dR-LNc"/>
+                                    <constraint firstItem="01H-DC-R3z" firstAttribute="bottom" secondItem="aAB-IS-3O3" secondAttribute="bottom" id="Qoc-7N-9GE"/>
+                                    <constraint firstItem="01H-DC-R3z" firstAttribute="top" secondItem="asU-U1-5It" secondAttribute="top" id="buo-Yd-eRN"/>
+                                    <constraint firstItem="01H-DC-R3z" firstAttribute="top" secondItem="aAB-IS-3O3" secondAttribute="top" id="cK2-It-L2r"/>
+                                    <constraint firstItem="01H-DC-R3z" firstAttribute="bottom" secondItem="asU-U1-5It" secondAttribute="bottom" id="f1h-bv-scc"/>
+                                    <constraint firstItem="asU-U1-5It" firstAttribute="height" secondItem="udN-Pe-OSX" secondAttribute="height" id="kLN-9Q-Akl"/>
+                                    <constraint firstItem="asU-U1-5It" firstAttribute="top" secondItem="udN-Pe-OSX" secondAttribute="top" id="mae-25-hSj"/>
+                                    <constraint firstAttribute="bottom" secondItem="asU-U1-5It" secondAttribute="bottom" id="mqu-SC-FFy"/>
+                                    <constraint firstItem="asU-U1-5It" firstAttribute="trailing" secondItem="udN-Pe-OSX" secondAttribute="leading" id="nWN-wG-L3s"/>
+                                    <constraint firstItem="asU-U1-5It" firstAttribute="width" secondItem="udN-Pe-OSX" secondAttribute="width" id="uvU-DR-Ahg"/>
+                                    <constraint firstItem="01H-DC-R3z" firstAttribute="width" secondItem="udN-Pe-OSX" secondAttribute="width" id="x0m-Aw-Q6x"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="udN-Pe-OSX" secondAttribute="trailing" id="BmU-oC-lQK"/>
+                            <constraint firstAttribute="bottom" secondItem="udN-Pe-OSX" secondAttribute="bottom" id="uWs-Nj-pbF"/>
+                            <constraint firstItem="udN-Pe-OSX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ui1-Eq-kdA"/>
+                            <constraint firstItem="udN-Pe-OSX" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="v3X-ea-jYR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="imageView_Cur" destination="aAB-IS-3O3" id="z3C-gV-bl4"/>
+                        <outlet property="imageView_Nex" destination="01H-DC-R3z" id="80E-dL-dhc"/>
+                        <outlet property="imageView_Pre" destination="asU-U1-5It" id="K7g-hQ-beO"/>
+                        <outlet property="scrollView" destination="udN-Pe-OSX" id="L2J-nL-lwC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="26.5625" y="12.890625"/>
+        </scene>
+    </scenes>
+</document>
