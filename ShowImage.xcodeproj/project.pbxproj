@@ -298,16 +298,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = VTDJB98SRW;
+				DEVELOPMENT_TEAM = 299PDL32RZ;
 				INFOPLIST_FILE = "$(SRCROOT)/image1/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gwm.exhibition.ShowImage;
+				PRODUCT_BUNDLE_IDENTIFIER = com.GWM.ShowImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "48b4bf20-d134-4820-905b-be523b79777c";
-				PROVISIONING_PROFILE_SPECIFIER = "exhibition*";
+				PROVISIONING_PROFILE = "16dc1aea-cae1-4549-b3c2-e4bde68625fd";
+				PROVISIONING_PROFILE_SPECIFIER = GWMtest;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -324,7 +324,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gwm.exhibition.ShowImage;
+				PRODUCT_BUNDLE_IDENTIFIER = com.GWM.ShowImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ca34ec66-e04e-42e4-ab89-0d12cf908394";
 				PROVISIONING_PROFILE_SPECIFIER = exhibitionDistribution;

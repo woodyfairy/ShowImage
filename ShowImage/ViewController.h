@@ -17,5 +17,7 @@
 @property (strong, nonatomic) NSMutableArray <UIImage *>*arrayImages;
 @property (assign, nonatomic) long currentIndex;
 
+@property (strong, nonatomic) NSTimer *timer;
+
 @end
 

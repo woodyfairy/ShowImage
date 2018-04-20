@@ -32,14 +32,14 @@
     NSArray *arrSubFiles = [[fileManager contentsOfDirectoryAtPath:dir error:&err] sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         NSString *fullName1 = (NSString *)obj1;
         NSString *name1 = fullName1;
-//        if ([fullName1 componentsSeparatedByString:@"."].count > 0) {
-//            name1 = [fullName1 componentsSeparatedByString:@"."].firstObject;
-//        }
+        //        if ([fullName1 componentsSeparatedByString:@"."].count > 0) {
+        //            name1 = [fullName1 componentsSeparatedByString:@"."].firstObject;
+        //        }
         NSString *fullName2 = (NSString *)obj2;
         NSString *name2 = fullName2;
-//        if ([fullName2 componentsSeparatedByString:@"."].count > 0) {
-//            name2 = [fullName2 componentsSeparatedByString:@"."].firstObject;
-//        }
+        //        if ([fullName2 componentsSeparatedByString:@"."].count > 0) {
+        //            name2 = [fullName2 componentsSeparatedByString:@"."].firstObject;
+        //        }
         if (name1.intValue < name2.intValue) {
             return NSOrderedAscending;
         }else if (name1.intValue > name2.intValue){
@@ -68,9 +68,14 @@
     //[self refreshCurrentImage]; //viewDidLayoutSubviews中会调用，这里调用在加载view之前，offset会被xib中替代
     
     //定时
-    [NSTimer scheduledTimerWithTimeInterval:timeInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
-        [self next];
-    }];
+    [self startTimer];
+}
+-(void)startTimer{
+    if (self.timer == nil) {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
+            [self next];
+        }];
+    }
 }
 -(BOOL)prefersStatusBarHidden{
     return YES;
@@ -119,12 +124,20 @@
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     [self refreshCurrentImage];
+    [self startTimer];
 }
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     [self refreshCurrentImage];
+    [self startTimer];
 }
 -(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
     self.scrollView.userInteractionEnabled = NO;
+}
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
