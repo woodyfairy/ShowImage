@@ -18,11 +18,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    ShowImageViewController *vc = [[ShowImageViewController alloc] initWithNibName:@"ShowImageViewController" bundle: nil];
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = vc;
-    [self.window makeKeyAndVisible];
-    
     NSMutableArray *arrayImages = [NSMutableArray array];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *dir = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"imgs"];
@@ -59,7 +54,12 @@
             }
         }
     }
-    vc.arrayImages = arrayImages;
+    
+    ShowImageViewController *vc = [[ShowImageViewController alloc] initWithImageArray:arrayImages];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = vc;
+    [self.window makeKeyAndVisible];
     
     return YES;
 }

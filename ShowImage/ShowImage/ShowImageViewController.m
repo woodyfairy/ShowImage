@@ -12,7 +12,14 @@
 //#define animTime 0.6
 
 @interface ShowImageViewController ()<UIScrollViewDelegate>
+//UI
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView_Pre;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView_Cur;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView_Nex;
+
 @property (strong, nonatomic) NSTimer *timer;
+
 @end
 
 @implementation ShowImageViewController
@@ -20,17 +27,23 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(instancetype)initWithImageArray:(NSMutableArray<UIImage *> *)array{
+    if ([self initWithNibName:@"ShowImageViewController" bundle:nil]) {
+        _arrayImages = array;
+    }
+    return self;
+}
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     if ([super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        self.timeInterval = 0;//8
-        self.animTime = 0.6f;
+        _timeInterval = 0;//8
+        _animTime = 0.6f;
     }
     return self;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.currentIndex = 0;
+    _currentIndex = 0;
     
     [self.scrollView setDelegate:self];
     [self.scrollView setDecelerationRate: 0.999];
@@ -42,7 +55,7 @@
 }
 -(void)setArrayImages:(NSMutableArray<UIImage *> *)arrayImages{
     _arrayImages = arrayImages;
-    self.currentIndex = 0;
+    _currentIndex = 0;
     [self refreshCurrentImage];
 }
 -(void)setTimeInterval:(float)timeInterval{
@@ -67,15 +80,15 @@
     self.scrollView.userInteractionEnabled = YES;
     float offsetX = self.scrollView.contentOffset.x;
     if (offsetX < 0) {
-        self.currentIndex --;
-        if (self.currentIndex < 0) {
-            self.currentIndex = self.arrayImages.count - 1;
+        _currentIndex --;
+        if (_currentIndex < 0) {
+            _currentIndex = self.arrayImages.count - 1;
         }
     }
     else if (offsetX > 0){
-        self.currentIndex ++;
-        if (self.currentIndex > self.arrayImages.count - 1) {
-            self.currentIndex = 0;
+        _currentIndex ++;
+        if (_currentIndex > self.arrayImages.count - 1) {
+            _currentIndex = 0;
         }
     }
     
@@ -85,16 +98,16 @@
     makeTransform(self.imageView_Cur, 1, 1);
     self.imageView_Cur.layer.zPosition = -1000;
     
-    if (self.arrayImages.count > 0) {
-        self.imageView_Cur.image = self.arrayImages[self.currentIndex];
+    if (self.arrayImages && self.arrayImages.count > 0) {
+        self.imageView_Cur.image = self.arrayImages[_currentIndex];
         
-        long prv = self.currentIndex - 1;
+        long prv = _currentIndex - 1;
         if (prv < 0) {
             prv = self.arrayImages.count - 1;
         }
         self.imageView_Pre.image = self.arrayImages[prv];
         
-        long nxt = self.currentIndex + 1;
+        long nxt = _currentIndex + 1;
         if (nxt > self.arrayImages.count - 1) {
             nxt = 0;
         }

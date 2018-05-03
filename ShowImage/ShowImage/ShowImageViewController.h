@@ -9,16 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface ShowImageViewController : UIViewController
+
+-(instancetype)initWithImageArray:(NSMutableArray <UIImage *>*)array;
+@property (strong, nonatomic) NSMutableArray <UIImage *>*arrayImages;
+@property (assign, nonatomic, readonly) long currentIndex;
 @property (assign, nonatomic) float timeInterval;
 @property (assign, nonatomic) float animTime;
-
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView_Pre;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView_Cur;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView_Nex;
-
-@property (strong, nonatomic) NSMutableArray <UIImage *>*arrayImages;
-@property (assign, nonatomic) long currentIndex;
 
 @end
 
