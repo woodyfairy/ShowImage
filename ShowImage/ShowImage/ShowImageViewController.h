@@ -16,6 +16,9 @@
 @property (weak, nonatomic) id<ShowImageDelegate>delegate;
 -(instancetype)initWithImageArray:(NSMutableArray <UIImage *>*)array;
 @property (strong, nonatomic) NSMutableArray <UIImage *>*arrayImages;
+-(instancetype)initWithImagePath:(NSMutableArray <NSString *>*)array;
+@property (strong, nonatomic) NSMutableArray <NSString *>*arrayPaths;
+@property (assign, nonatomic, readonly) long total;
 @property (assign, nonatomic) long currentIndex;
 @property (assign, nonatomic) float timeInterval;
 @property (assign, nonatomic) float animTime;

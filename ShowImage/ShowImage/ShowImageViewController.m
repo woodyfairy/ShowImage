@@ -11,6 +11,11 @@
 //#define timeInterval 8
 //#define animTime 0.6
 
+typedef NS_ENUM(NSInteger, ImageLoadType) {
+    ImageLoadType_Image,
+    ImageLoadType_FilePath,
+};
+
 @interface ShowImageViewController ()<UIScrollViewDelegate>
 //UI
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -20,6 +25,7 @@
 
 @property (strong, nonatomic) NSTimer *timer;
 
+@property (assign, nonatomic) ImageLoadType type;
 @end
 
 @implementation ShowImageViewController
@@ -30,6 +36,14 @@
 -(instancetype)initWithImageArray:(NSMutableArray<UIImage *> *)array{
     if ([self initWithNibName:@"ShowImageViewController" bundle:nil]) {
         _arrayImages = array;
+        self.type = ImageLoadType_Image;
+    }
+    return self;
+}
+-(instancetype)initWithImagePath:(NSMutableArray<NSString *> *)array{
+    if ([self initWithNibName:@"ShowImageViewController" bundle:nil]) {
+        _arrayPaths = array;
+        self.type = ImageLoadType_FilePath;
     }
     return self;
 }
@@ -54,12 +68,31 @@
     [self startTimer];
 }
 -(void)setArrayImages:(NSMutableArray<UIImage *> *)arrayImages{
+    self.type = ImageLoadType_Image;
     _arrayImages = arrayImages;
     _currentIndex = 0;
     [self refreshCurrentImage];
 }
+-(void)setArrayPaths:(NSMutableArray<NSString *> *)arrayPaths{
+    self.type = ImageLoadType_FilePath;
+    _arrayPaths = arrayPaths;
+    _currentIndex = 0;
+    [self refreshCurrentImage];
+}
+-(long)total{
+    if (self.type == ImageLoadType_Image) {
+        return self.arrayImages.count;
+    }else if (self.type == ImageLoadType_FilePath){
+        return self.arrayPaths.count;
+    }else{
+        return 0;
+    }
+}
 -(void)setCurrentIndex:(long)currentIndex{
-    if (currentIndex < self.arrayImages.count) {
+    if (self.type == ImageLoadType_Image && currentIndex < self.arrayImages.count) {
+        _currentIndex = currentIndex;
+        [self refreshCurrentImage];
+    }else if (self.type == ImageLoadType_FilePath && currentIndex < self.arrayPaths.count){
         _currentIndex = currentIndex;
         [self refreshCurrentImage];
     }
@@ -88,12 +121,12 @@
     if (offsetX < 0) {
         _currentIndex --;
         if (_currentIndex < 0) {
-            _currentIndex = self.arrayImages.count - 1;
+            _currentIndex = self.total - 1;
         }
     }
     else if (offsetX > 0){
         _currentIndex ++;
-        if (_currentIndex > self.arrayImages.count - 1) {
+        if (_currentIndex > self.total - 1) {
             _currentIndex = 0;
         }
     }
@@ -104,21 +137,25 @@
     makeTransform(self.imageView_Cur, 1, 1);
     self.imageView_Cur.layer.zPosition = -1000;
     
-    if (self.arrayImages && self.arrayImages.count > 0) {
+    long prv = _currentIndex - 1;
+    if (prv < 0) {
+        prv = self.total - 1;
+    }
+    long nxt = _currentIndex + 1;
+    if (nxt > self.total - 1) {
+        nxt = 0;
+    }
+    if (self.type == ImageLoadType_Image && self.arrayImages && self.arrayImages.count > 0) {
         self.imageView_Cur.image = self.arrayImages[_currentIndex];
-        
-        long prv = _currentIndex - 1;
-        if (prv < 0) {
-            prv = self.arrayImages.count - 1;
-        }
         self.imageView_Pre.image = self.arrayImages[prv];
-        
-        long nxt = _currentIndex + 1;
-        if (nxt > self.arrayImages.count - 1) {
-            nxt = 0;
-        }
         self.imageView_Nex.image = self.arrayImages[nxt];
-        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(showImageViewDidRefreshImage:)]) {
+            [self.delegate showImageViewDidRefreshImage:self.imageView_Cur.image];
+        }
+    }else if (self.type == ImageLoadType_FilePath && self.arrayPaths && self.arrayPaths.count > 0){
+        self.imageView_Cur.image = [UIImage imageWithContentsOfFile:self.arrayPaths[_currentIndex]];
+        self.imageView_Pre.image = [UIImage imageWithContentsOfFile:self.arrayPaths[prv]];
+        self.imageView_Nex.image = [UIImage imageWithContentsOfFile:self.arrayPaths[nxt]];
         if (self.delegate && [self.delegate respondsToSelector:@selector(showImageViewDidRefreshImage:)]) {
             [self.delegate showImageViewDidRefreshImage:self.imageView_Cur.image];
         }
