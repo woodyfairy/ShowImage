@@ -112,6 +112,10 @@
             nxt = 0;
         }
         self.imageView_Nex.image = self.arrayImages[nxt];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(showImageViewDidRefreshImage:)]) {
+            [self.delegate showImageViewDidRefreshImage:self.imageView_Cur.image];
+        }
     }
 }
 

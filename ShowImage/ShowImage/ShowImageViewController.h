@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShowImageViewController : UIViewController
+@protocol ShowImageDelegate<NSObject>
+-(void)showImageViewDidRefreshImage:(UIImage *)image;
+@end
 
+@interface ShowImageViewController : UIViewController
+@property (weak, nonatomic) id<ShowImageDelegate>delegate;
 -(instancetype)initWithImageArray:(NSMutableArray <UIImage *>*)array;
 @property (strong, nonatomic) NSMutableArray <UIImage *>*arrayImages;
 @property (assign, nonatomic, readonly) long currentIndex;
