@@ -58,6 +58,12 @@
     _currentIndex = 0;
     [self refreshCurrentImage];
 }
+-(void)setCurrentIndex:(long)currentIndex{
+    if (currentIndex < self.arrayImages.count) {
+        _currentIndex = currentIndex;
+        [self refreshCurrentImage];
+    }
+}
 -(void)setTimeInterval:(float)timeInterval{
     _timeInterval = timeInterval;
     [self startTimer];
