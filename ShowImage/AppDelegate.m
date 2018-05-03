@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ShowImageViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,49 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    ShowImageViewController *vc = [[ShowImageViewController alloc] initWithNibName:@"ShowImageViewController" bundle: nil];
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = vc;
+    [self.window makeKeyAndVisible];
+    
+    NSMutableArray *arrayImages = [NSMutableArray array];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *dir = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"imgs"];
+    NSError *err = nil;
+    NSArray *arrSubFiles = [[fileManager contentsOfDirectoryAtPath:dir error:&err] sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSString *fullName1 = (NSString *)obj1;
+        NSString *name1 = fullName1;
+        //        if ([fullName1 componentsSeparatedByString:@"."].count > 0) {
+        //            name1 = [fullName1 componentsSeparatedByString:@"."].firstObject;
+        //        }
+        NSString *fullName2 = (NSString *)obj2;
+        NSString *name2 = fullName2;
+        //        if ([fullName2 componentsSeparatedByString:@"."].count > 0) {
+        //            name2 = [fullName2 componentsSeparatedByString:@"."].firstObject;
+        //        }
+        if (name1.intValue < name2.intValue) {
+            return NSOrderedAscending;
+        }else if (name1.intValue > name2.intValue){
+            return NSOrderedDescending;
+        }else{
+            return NSOrderedSame;
+        }
+    }];
+    if (err) {
+        NSLog(@"ERROR:%@", err.description);
+    }else{
+        for (NSString *fileName in arrSubFiles) {
+            NSString *subPath = [dir stringByAppendingPathComponent:fileName];
+            UIImage *image = [UIImage imageWithContentsOfFile:subPath];
+            if (image) {
+                [arrayImages addObject:image];
+            }else{
+                NSLog(@"image is nil: %@", subPath);
+            }
+        }
+    }
+    vc.arrayImages = arrayImages;
+    
     return YES;
 }
 

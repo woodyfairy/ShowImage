@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ShowImageViewController : UIViewController
+@property (assign, nonatomic) float timeInterval;
+@property (assign, nonatomic) float animTime;
+
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView_Pre;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView_Cur;
@@ -16,8 +19,6 @@
 
 @property (strong, nonatomic) NSMutableArray <UIImage *>*arrayImages;
 @property (assign, nonatomic) long currentIndex;
-
-@property (strong, nonatomic) NSTimer *timer;
 
 @end
 

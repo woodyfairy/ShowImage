@@ -6,61 +6,31 @@
 //  Copyright © 2018年 吴冬炀. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "ShowImageViewController.h"
 
-#define timeInterval 8
-#define animTime 0.6
+//#define timeInterval 8
+//#define animTime 0.6
 
-@interface ViewController ()<UIScrollViewDelegate>
-
+@interface ShowImageViewController ()<UIScrollViewDelegate>
+@property (strong, nonatomic) NSTimer *timer;
 @end
 
-@implementation ViewController
+@implementation ShowImageViewController
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    if ([super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.timeInterval = 0;//8
+        self.animTime = 0.6f;
+    }
+    return self;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.currentIndex = 0;
-    self.arrayImages = [NSMutableArray array];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *dir = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"imgs"];
-    NSError *err = nil;
-    NSArray *arrSubFiles = [[fileManager contentsOfDirectoryAtPath:dir error:&err] sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        NSString *fullName1 = (NSString *)obj1;
-        NSString *name1 = fullName1;
-        //        if ([fullName1 componentsSeparatedByString:@"."].count > 0) {
-        //            name1 = [fullName1 componentsSeparatedByString:@"."].firstObject;
-        //        }
-        NSString *fullName2 = (NSString *)obj2;
-        NSString *name2 = fullName2;
-        //        if ([fullName2 componentsSeparatedByString:@"."].count > 0) {
-        //            name2 = [fullName2 componentsSeparatedByString:@"."].firstObject;
-        //        }
-        if (name1.intValue < name2.intValue) {
-            return NSOrderedAscending;
-        }else if (name1.intValue > name2.intValue){
-            return NSOrderedDescending;
-        }else{
-            return NSOrderedSame;
-        }
-    }];
-    if (err) {
-        NSLog(@"ERROR:%@", err.description);
-    }else{
-        for (NSString *fileName in arrSubFiles) {
-            NSString *subPath = [dir stringByAppendingPathComponent:fileName];
-            UIImage *image = [UIImage imageWithContentsOfFile:subPath];
-            if (image) {
-                [self.arrayImages addObject:image];
-            }else{
-                NSLog(@"image is nil: %@", subPath);
-            }
-        }
-    }
     
     [self.scrollView setDelegate:self];
     [self.scrollView setDecelerationRate: 0.999];
@@ -70,9 +40,22 @@
     //定时
     [self startTimer];
 }
+-(void)setArrayImages:(NSMutableArray<UIImage *> *)arrayImages{
+    _arrayImages = arrayImages;
+    self.currentIndex = 0;
+    [self refreshCurrentImage];
+}
+-(void)setTimeInterval:(float)timeInterval{
+    _timeInterval = timeInterval;
+    [self startTimer];
+}
 -(void)startTimer{
-    if (self.timer == nil) {
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    if (self.timeInterval > 0) {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:self.timeInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
             [self next];
         }];
     }
@@ -98,21 +81,25 @@
     
     
     [self.scrollView setContentOffset : CGPointZero];
-    self.imageView_Cur.image = self.arrayImages[self.currentIndex];
+    
     makeTransform(self.imageView_Cur, 1, 1);
     self.imageView_Cur.layer.zPosition = -1000;
     
-    long prv = self.currentIndex - 1;
-    if (prv < 0) {
-        prv = self.arrayImages.count - 1;
+    if (self.arrayImages.count > 0) {
+        self.imageView_Cur.image = self.arrayImages[self.currentIndex];
+        
+        long prv = self.currentIndex - 1;
+        if (prv < 0) {
+            prv = self.arrayImages.count - 1;
+        }
+        self.imageView_Pre.image = self.arrayImages[prv];
+        
+        long nxt = self.currentIndex + 1;
+        if (nxt > self.arrayImages.count - 1) {
+            nxt = 0;
+        }
+        self.imageView_Nex.image = self.arrayImages[nxt];
     }
-    self.imageView_Pre.image = self.arrayImages[prv];
-    
-    long nxt = self.currentIndex + 1;
-    if (nxt > self.arrayImages.count - 1) {
-        nxt = 0;
-    }
-    self.imageView_Nex.image = self.arrayImages[nxt];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -160,7 +147,7 @@
         makeTransform(self.imageView_Pre, -1, 0);
         makeTransform(self.imageView_Nex, 1, 0);
         makeTransform(self.imageView_Cur, 1, 1);
-        [UIView animateWithDuration:animTime animations:^{
+        [UIView animateWithDuration:self.animTime animations:^{
             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
             [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:NO];
             makeTransform(self.imageView_Pre, -1, 1);
